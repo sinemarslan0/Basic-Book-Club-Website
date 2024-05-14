@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <script
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+    type="text/javascript"
+  ></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+      $('#loadBooks').click(async function() {
+        const response = await fetch('books.json');
+        if (!response.ok) {
+          console.error(`Error fetching books: ${response.status}`);
+          return;
+        }
+        const data = await response.json();
+        const books = data.books || [];
+
+        const content = $('#content'); 
+        content.empty();
+
+        books.forEach((book) => {
+          const bookDiv = $('<div>').addClass('book'); 
+          bookDiv.html(`
+            <h3>${book.title}</h3>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Genre:</strong> ${book.genre}</p>
+          `);
+
+          $('#content').css('color', 'blue'); // id calling
+          $('[href]').css('border', '1px solid black').css('padding', '3px');
+          $('a[href*="book_list.html"]').css('border', '1px solid pink');
+          $('a[href$=\'upcoming_events.html\']').css('border', '1px solid red');
+          content.append(bookDiv);
+          bookDiv.fadeIn(500); 
+        });
+      });
+    });
+    </script>
+</head>
+<body style="height: 100%;">
+    <header class="header">
+      <h1>Welcome to Sinem's Book Club!</h1>
+      <nav class="right-desktop-nav">
+        <a href="book_list.html">Last Month Book List</a>
+        <a href="upcoming_events.html">Upcoming Events</a>
+        <a href="about_us.html">About Us</a>
+      </nav>
+  </header>
+  
+  <button id="loadBooks">Click here to see this month's books!</button>
+  <div id="content"></div>
+
+  <style>
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .right-desktop-nav {
+      text-align: right; 
+    }
+
+    .right-desktop-nav a {
+      color: #333;
+      margin-left: 15px;
+      font-size: 16px;
+    }
+
+    .right-desktop-nav a:hover {
+      color: #007bff;
+    }
+    
+    #content {
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px;
+      margin: 10px;
+      background-color: #007bff;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:active {
+      background-color: #004080;
+    }
+
+    .book {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fafafa;
+      display: none;
+    }
+
+    .book h3 {
+      margin: 0;
+    }
+
+    #loadBooks {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: 10s;
+    }
+
+    #loadBooks:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</body>
+</html>
